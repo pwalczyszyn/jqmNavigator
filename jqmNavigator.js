@@ -43,12 +43,13 @@
                  */
                 pushView:function jqmNavigator_pushView(view, options) {
                     var containerViews = this._getPageContainerViews(options);
+
+                    // Pushing the view to the stack
+                    containerViews.views.push(view);
                     // Appending the view to the DOM
                     containerViews.pageContainer.append(view.el);
                     // Rendering the view
                     view.render();
-                    // Pushing the view to the stack
-                    containerViews.views.push(view);
 
                     if (!this._initialized) {
                         // Adding data-role with page value
@@ -77,9 +78,9 @@
                     var containerViews = this._getPageContainerViews(options);
                     if (containerViews.views.length > 1) {
                         // From view ref
-                        var fromView = containerViews.views[containerViews.views.length - 1];
+                        var fromView = containerViews.views.pop();
                         // To view ref
-                        toView = containerViews.views[containerViews.views.length - 2];
+                        toView = containerViews.views[containerViews.views.length - 1];
 
                         fromView.$el.on('pagehide', function (event) {
                             // Removing pagehide handler
@@ -87,9 +88,6 @@
 
                             // Detaching view from DOM
                             fromView.$el.detach();
-
-                            // Removing view from views array
-                            containerViews.views.splice(containerViews.views.indexOf(fromView), 1);
                         });
 
                         // Changing to view below current one
@@ -116,21 +114,17 @@
                         // From view ref
                         var fromView = containerViews.views[containerViews.views.length - 1],
                         // To view ref
-                            toView = containerViews.views[0];
+                            toView = containerViews.views[0],
+                        // Removed views
+                            removedViews = containerViews.views.splice(1, containerViews.views.length - 1);
 
                         fromView.$el.on('pagehide', function (event) {
                             // Removing pagehide handler
                             fromView.$el.off('pagehide', arguments.callee);
 
-                            for (var i = containerViews.views.length - 1; i > 0; i--) {
-                                var item = containerViews.views[1];
-                                if (item !== toView) {
-                                    // Detaching view from DOM
-                                    item.$el.detach();
-                                    // Removing view from views array
-                                    containerViews.views.splice(1, 1);
-                                }
-                            }
+                            removedViews.forEach(function (item) {
+                                item.$el.detach();
+                            }, this);
                         });
 
                         // Changing to view below current one
@@ -155,24 +149,22 @@
                     var containerViews = this._getPageContainerViews(options);
                     if (containerViews.views.length >= 1) {
                         // From view ref
-                        var fromView = containerViews.views[containerViews.views.length - 1];
+                        var fromView = containerViews.views.pop();
                         fromView.$el.on('pagehide', function (event) {
                             // Removing pagehide handler
                             fromView.$el.off('pagehide', arguments.callee);
 
                             // Detaching view from DOM
                             fromView.$el.detach();
-
-                            // Removing view from views array
-                            containerViews.views.splice(containerViews.views.indexOf(fromView), 1);
                         });
 
+                        // Pushing the view to the stack
+                        containerViews.views.push(view);
                         // Appending the view to the DOM
                         containerViews.pageContainer.append(view.el);
                         // Rendering the view
                         view.render();
-                        // Pushing the view to the stack
-                        containerViews.views.push(view);
+
                         // Changing page
                         $.mobile.changePage(view.$el, $.extend({
                             role:'page',
@@ -191,28 +183,25 @@
                     var containerViews = this._getPageContainerViews(options);
                     if (containerViews.views.length >= 1) {
                         // From view ref
-                        var fromView = containerViews.views[containerViews.views.length - 1];
+                        var fromView = containerViews.views[containerViews.views.length - 1],
+                        // Removed views
+                            removedViews = containerViews.views.splice(0, containerViews.views.length);
+
                         fromView.$el.on('pagehide', function (event) {
                             // Removing pagehide handler
                             fromView.$el.off('pagehide', arguments.callee);
 
-                            for (var i = 0; i < containerViews.views.length - 1; i++) {
-                                var item = containerViews.views[0];
-                                if (item !== view) {
-                                    // Detaching view from DOM
-                                    item.$el.detach();
-                                    // Removing view from views array
-                                    containerViews.views.splice(0, 1);
-                                }
-                            }
+                            removedViews.forEach(function (item) {
+                                item.$el.detach();
+                            }, this);
                         });
 
+                        // Pushing the view to the stack
+                        containerViews.views.push(view);
                         // Appending the view to the DOM
                         containerViews.pageContainer.append(view.el);
                         // Rendering the view
                         view.render();
-                        // Pushing the view to the stack
-                        containerViews.views.push(view);
 
                         // Changing page
                         $.mobile.changePage(view.$el, $.extend({
