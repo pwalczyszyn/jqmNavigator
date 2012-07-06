@@ -1,10 +1,20 @@
-/**
- * Created by Piotr Walczyszyn (outof.me | @pwalczyszyn)
- *
- * User: pwalczys
- * Date: 7/5/12
- * Time: 4:02 PM
- */
+//////////////////////////////////////////////////////////////////////////////////////
+//
+//	Copyright 2012 Piotr Walczyszyn (http://outof.me | @pwalczyszyn)
+//
+//	Licensed under the Apache License, Version 2.0 (the "License");
+//	you may not use this file except in compliance with the License.
+//	You may obtain a copy of the License at
+//
+//		http://www.apache.org/licenses/LICENSE-2.0
+//
+//	Unless required by applicable law or agreed to in writing, software
+//	distributed under the License is distributed on an "AS IS" BASIS,
+//	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//	See the License for the specific language governing permissions and
+//	limitations under the License.
+//
+//////////////////////////////////////////////////////////////////////////////////////
 
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -16,23 +26,37 @@
 
     $(document).bind("mobileinit", function () {
 
-        $.mobile.ajaxEnabled = false;
-
+        // We want to handle link clicks from Backbone
         $.mobile.linkBindingEnabled = false;
 
+        // We will handle forms programmatically
+        $.mobile.ajaxEnabled = false;
+
+        // We don't need this as we will be doing page navigation programmatically
         $.mobile.hashListeningEnabled = false;
 
+        // We don't need this as we will be doing page navigation programmatically
         $.mobile.pushStateEnabled = false;
 
+        // Turning off page auto initialization, we want to control it programmatically
         $.mobile.autoInitializePage = false;
 
         $.extend($.mobile, {
             jqmNavigator:{
 
+                /**
+                 * Flag indicating if first view was initialized
+                 */
                 _initialized:false,
 
+                /**
+                 * Map of containers and views
+                 */
                 _containers:[],
 
+                /**
+                 * If this is not set, jqmNavigator will use body tag as default container
+                 */
                 defaultPageContainer:null,
 
                 /**
@@ -54,9 +78,8 @@
                     if (!this._initialized) {
                         // Adding data-role with page value
                         view.$el.attr('data-role', 'page');
-
                         // First time initialization
-                        $.mobile.initializePage();
+                        if (!$.mobile.autoInitializePage) $.mobile.initializePage();
                         // Setting to true after initialization
                         this._initialized = true;
                     } else {
@@ -228,10 +251,27 @@
                     if (!result) this._containers.push(result = {pageContainer:pageContainer, views:[]});
 
                     return result;
-                }
+                },
 
+                /**
+                 * Returns an array of views for specified pageContainer. If pageContainer param is omitted it tries to
+                 * return views of default container.
+                 *
+                 * @param pageContainer
+                 * @return {*}
+                 */
+                getViews:function jqmNavigator_getViews(pageContainer) {
+                    var views,
+                        pc = pageContainer ? pageContainer[0] : ($.mobile.pageContainer ? $.mobile.pageContainer[0] : null);
+                    this._containers.some(function (item) {
+                        if (item.pageContainer[0] === pc) {
+                            views = item.views;
+                            return true;
+                        }
+                    }, this);
+                    return views;
+                }
             }
         });
     });
-
 }));
