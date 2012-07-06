@@ -44,6 +44,8 @@
         $.extend($.mobile, {
             jqmNavigator:{
 
+                VERSION:'1.0.0',
+
                 /**
                  * Flag indicating if first view was initialized
                  */
