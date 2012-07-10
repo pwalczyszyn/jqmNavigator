@@ -47,11 +47,6 @@
                 VERSION:'1.0.0',
 
                 /**
-                 * Flag indicating if first view was initialized
-                 */
-                _initialized:false,
-
-                /**
                  * Map of containers and views
                  */
                 _containers:[],
@@ -77,13 +72,11 @@
                     // Rendering the view
                     view.render();
 
-                    if (!this._initialized) {
+                    if (!$.mobile.firstPage) {
                         // Adding data-role with page value
                         view.$el.attr('data-role', 'page');
                         // First time initialization
                         if (!$.mobile.autoInitializePage) $.mobile.initializePage();
-                        // Setting to true after initialization
-                        this._initialized = true;
                     } else {
                         // Changing page
                         $.mobile.changePage(view.$el, $.extend({
@@ -107,10 +100,7 @@
                         // To view ref
                         toView = containerViews.views[containerViews.views.length - 1];
 
-                        fromView.$el.on('pagehide', function (event) {
-                            // Removing pagehide handler
-                            fromView.$el.off('pagehide', arguments.callee);
-
+                        fromView.$el.one('pagehide', function (event) {
                             // Detaching view from DOM
                             fromView.$el.detach();
                         });
@@ -143,10 +133,7 @@
                         // Removed views
                             removedViews = containerViews.views.splice(1, containerViews.views.length - 1);
 
-                        fromView.$el.on('pagehide', function (event) {
-                            // Removing pagehide handler
-                            fromView.$el.off('pagehide', arguments.callee);
-
+                        fromView.$el.one('pagehide', function (event) {
                             removedViews.forEach(function (item) {
                                 item.$el.detach();
                             }, this);
@@ -175,10 +162,7 @@
                     if (containerViews.views.length >= 1) {
                         // From view ref
                         var fromView = containerViews.views.pop();
-                        fromView.$el.on('pagehide', function (event) {
-                            // Removing pagehide handler
-                            fromView.$el.off('pagehide', arguments.callee);
-
+                        fromView.$el.one('pagehide', function (event) {
                             // Detaching view from DOM
                             fromView.$el.detach();
                         });
@@ -212,10 +196,7 @@
                         // Removed views
                             removedViews = containerViews.views.splice(0, containerViews.views.length);
 
-                        fromView.$el.on('pagehide', function (event) {
-                            // Removing pagehide handler
-                            fromView.$el.off('pagehide', arguments.callee);
-
+                        fromView.$el.one('pagehide', function (event) {
                             removedViews.forEach(function (item) {
                                 item.$el.detach();
                             }, this);
