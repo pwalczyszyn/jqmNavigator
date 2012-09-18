@@ -75,4 +75,7 @@ All functions above accept additional argument with transition options, these op
 $.mobile.jqmNavigator.pushView(new MyView(), {reverse:true, transition:'slide'});
 ```
 
+### Examples
 
+- Used in [GapForce](https://github.com/pwalczyszyn/GapForce) project
+- Used in [GeeksNearby](https://github.com/pwalczyszyn/GeeksNearby) project
