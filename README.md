@@ -9,6 +9,7 @@ Defining view is as simple as defining Backbone View:
 
   var MyView = Backbone.View.extend({
     
+    // jQM events like pageshow, pagehide handling
     events:{
       'pageshow':'this_pageshowHandler',
       'pagehide':'this_pagehideHandler'
@@ -26,11 +27,11 @@ Defining view is as simple as defining Backbone View:
     },
     
     this_pageshowHandler:function(event) {
-      console.log('View was pushed to the stack!');
+      console.log('View was shown!');
     },
     
     this_pagehideHandler:function(event) {
-      console.log('View was popped of the stack!');
+      console.log('View was hidden!');
     }
     
   });
@@ -42,6 +43,12 @@ Pushing new view:
 
 ```js
 $.mobile.jqmNavigator.pushView(new MyView());
+```
+
+Specifing view transition options (it accepts same options as [jQM changePage function](http://jquerymobile.com/demos/1.1.1/docs/api/methods.html):
+
+```js
+$.mobile.jqmNavigator.pushView(new MyView(), {reverse:true, transition:'slide'});
 ```
 
 
