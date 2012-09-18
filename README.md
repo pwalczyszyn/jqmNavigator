@@ -1,6 +1,4 @@
-jqmNavigator
-============
+### Description
 
-This is an extension library for jQuery Mobile and Backbone.js frameworks. 
+**jqmNavigator** is an extension for [jQuery Mobile](http://jquerymobile.com/) and [Backbone.js](http://backbonejs.org/) frameworks. It was inspired from [BackStack](https://github.com/pwalczyszyn/backstack) which was inspired from [ViewNavigator API](http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/spark/components/ViewNavigator.html) from the mobile SDK of the [Apache Flex framework](http://incubator.apache.org/flex/).
 
-I know I need to write more documentation about it but basically it is very similar to my other lib called BackStack which I had more time to document ;) https://github.com/pwalczyszyn/backstack
