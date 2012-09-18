@@ -10,7 +10,8 @@ Defining view is as simple as defining Backbone View:
   var MyView = Backbone.View.extend({
     
     events:{
-      'pageshow':'this_pageshowHandler'
+      'pageshow':'this_pageshowHandler',
+      'pagehide':'this_pagehideHandler'
     },
     
     render:function() {
@@ -22,10 +23,25 @@ Defining view is as simple as defining Backbone View:
       this.$el.html(pageHTML);
       
       return this;
+    },
+    
+    this_pageshowHandler:function(event) {
+      console.log('View was pushed to the stack!');
+    },
+    
+    this_pagehideHandler:function(event) {
+      console.log('View was popped of the stack!');
     }
     
   });
 
 
 ```
+
+Pushing new view:
+
+```js
+$.mobile.jqmNavigator.pushView(new MyView());
+```
+
 
