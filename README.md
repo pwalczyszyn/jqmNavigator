@@ -39,13 +39,13 @@ Defining view is as simple as defining Backbone View:
 
 ```
 
-Pushing new view:
+Pushing new view to the stack:
 
 ```js
 $.mobile.jqmNavigator.pushView(new MyView());
 ```
 
-Popping a view from to of the stack:
+Popping a view from the stack:
 
 ```js
 $.mobile.jqmNavigator.popView();
