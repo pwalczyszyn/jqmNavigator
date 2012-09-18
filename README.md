@@ -45,6 +45,30 @@ Pushing new view:
 $.mobile.jqmNavigator.pushView(new MyView());
 ```
 
+Popping a view from to of the stack:
+
+```js
+$.mobile.jqmNavigator.popView();
+```
+
+Popping all views except the first one from the stack:
+
+```js
+$.mobile.jqmNavigator.popToFirst();
+```
+
+Replacing view on top of the stuck:
+
+```js
+$.mobile.jqmNavigator.replaceView(new MyView2());
+```
+
+Replacing all views on the stack:
+
+```js
+$.mobile.jqmNavigator.replaceAll(new MyView2());
+```
+
 Specifing view transition options (it accepts same options as [jQM changePage function](http://jquerymobile.com/demos/1.1.1/docs/api/methods.html):
 
 ```js
